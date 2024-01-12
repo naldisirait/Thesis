@@ -1,3 +1,8 @@
+hours: 24
+tahun: 2021
+len_side: 100
+time_interval: 3
 resolution: 0.1
 path_dat: "D:/Tesis/Data/2018 test/"
 path_nc: "C:/Users/62812/Documents/Kuliah/Semester 3/Tesis/Data/Himawari/nc/2018 test/"
+path_besttrack: "C:/Users/62812/Documents/Kuliah/Semester 3/Tesis/Code/Bestrack 2016-2023.csv"

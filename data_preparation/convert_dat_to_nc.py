@@ -5,7 +5,7 @@ import os
 import logging
 from scipy import interpolate
 import time
-from utils import make_nc2D, read_from_yaml
+from utils_preperation import make_nc2D, read_from_yaml
 
 def convert_dat_to_nc(path_dat,path_nc,resolution):
     #create a list of all file name from path_dat
