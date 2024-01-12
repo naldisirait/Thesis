@@ -1,4 +1,5 @@
 import numpy as np
+import yaml
 import xarray as xr
 
 def make_nc2D(
@@ -29,3 +30,9 @@ def make_nc2D(
         "longitude": lon,
         })
     dxr.to_netcdf(f"{path_output}{output_name}.nc") #,encoding = encode)
+
+# Function to read data from a YAML file
+def read_from_yaml(file_path : str):
+    with open(file_path, 'r') as yaml_file:
+        data = yaml.safe_load(yaml_file)
+    return data
