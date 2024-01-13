@@ -1,0 +1,2 @@
+1. Coba lakukan data scaling menggunakan sklearn preprocessing(minmax and standard scaler)
+2. Coba lakukan experiment sesuai yang disarankan Pak Utama
