@@ -7,9 +7,7 @@ import yaml
 import xarray as xr
 
 import building_dataset
-from utils_preperation import make_nc2D, read_from_yaml
-
-
+from utils_preperation import read_from_yaml
 
 #tahun di ganti sesuai data tahun yang ingin diolah
 tahun = '2021'
