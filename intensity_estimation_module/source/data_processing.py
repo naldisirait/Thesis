@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 
 def filter_error_shape(dataset : dict) -> dict:
     """
@@ -25,6 +26,13 @@ def filter_error_shape(dataset : dict) -> dict:
     return dataset
 
 def intensity_classification(wind):
+    """
+    Function to classify the wind base on the tropical cyclone classification
+    Args:
+        wind: an array of the wind
+    Return:
+        classes: class based on the wind value
+    """
     classes = []
     for w in (wind):
         if (w < 17.2):
@@ -43,7 +51,10 @@ def intensity_classification(wind):
 
 def data_processing(train_dataset: dict,val_dataset: dict):
     """
-    function to process data
+    function to process data into X_train, y_train, X_val, y_val
+    Args:
+        train_dataset: dictionary of the train dataset
+        val_dataset: dictionary of the validation dataset
 
     """
     #create tensor of infrared data train and  validation
