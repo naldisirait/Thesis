@@ -8,28 +8,36 @@ from utils.utils_intensity import read_json_file
 from research.config import Configuration
 
 import torch
+import logging
 import torch.nn as nn
 
 def run_experiment():
     #0. set the computation variable
-    gpu_idx = 1
+    gpu_idx = 0
     device = torch.device(f"cuda:{gpu_idx}") if torch.cuda.is_available() else torch.device("cpu")
+    print(f"device: {device}")
 
     path_dataset = "C:/Users/62812/Documents/Kuliah/Thesis/data"
-    file_train = ["TC Dataset 2018", "TC Dataset 2019", "TC Dataset 2020", "TC Dataset 2021"]
+    file_train = ["TC Dataset 2018"]#, "TC Dataset 2019", "TC Dataset 2020", "TC Dataset 2021"]
     file_val = ["TC Dataset 2021 validation"]
 
+    logging.info("Processing data...")
     #1. load dataset
     train_dataset = load_dataset(path_dataset = path_dataset, data_name=file_train)
     val_dataset = load_dataset(path_dataset=path_dataset, data_name= file_val)
 
+    logging.info("Load Data Successfully")
+
     #2. processing dataset
     X_train, y_train, X_val, y_val = data_processing(train_dataset=train_dataset,val_dataset=val_dataset)
+
+    logging.info(" processing data DONE")
 
     #3. Create custom data loader
     batch_size = 64
     train_loader = create_data_loader(X = X_train, y = y_train, batch_size = batch_size, shuffle=True)
     val_loader = create_data_loader(X = X_val, y = y_val, batch_size = batch_size, shuffle = False)
+    logging.info("Creating Data Loader DONE")
 
     #4. create the model
     version = "b0"
@@ -44,6 +52,7 @@ def run_experiment():
     num_epochs = config_class.get_epochs()
     experiment_path = config_class.get_path_experiment()
 
+    logging.info("Creating Model DONE")
     #5. train the model
     model,train_accuracy,val_accuracy = train_net(model, 
                                                   num_epochs=num_epochs,
@@ -53,11 +62,15 @@ def run_experiment():
                                                   optimizer= optimizer,
                                                   device=device)
     
+    logging.info("Training model DONE")
+
     save_experiment(path = experiment_path, 
                     config = config, 
                     model = model, 
                     train_acc=train_accuracy, 
                     val_acc= val_accuracy)
+    
+    logging.info("Succesfully saving experiment")
 
 if __name__ == "__main__":
     run_experiment()
