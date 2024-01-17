@@ -1,4 +1,6 @@
 import torch
+import numpy as np
+import torch.nn as nn
 
 torch.manual_seed(42)
 def train_net(model,num_epochs,train_loader,valid_loader,optimizer, criterion, device):

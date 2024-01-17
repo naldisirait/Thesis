@@ -13,18 +13,6 @@ base_model = [
     [6, 320, 1, 1, 3],
 ]
 
-phi_values = {
-    # tuple of: (phi_value, resolution, drop_rate)
-    "b0": (0, 100, 0.2),  # alpha, beta, gamma, depth = alpha ** phi
-    "b1": (0.5, 240, 0.2),
-    "b2": (1, 260, 0.3),
-    "b3": (2, 300, 0.3),
-    "b4": (3, 380, 0.4),
-    "b5": (4, 456, 0.4),
-    "b6": (5, 528, 0.5),
-    "b7": (6, 600, 0.5),
-}
-
 class CNNBlock(nn.Module):
     def __init__(
         self, in_channels, out_channels, kernel_size, stride, padding, groups=1
@@ -44,6 +32,7 @@ class CNNBlock(nn.Module):
 
     def forward(self, x):
         return self.silu(self.bn(self.cnn(x)))
+    
 class SqueezeExcitation(nn.Module):
     def __init__(self, in_channels, reduced_dim):
         super(SqueezeExcitation, self).__init__()
@@ -117,9 +106,10 @@ class InvertedResidualBlock(nn.Module):
             return self.conv(x)
 
 class EfficientNet(nn.Module):
-    def __init__(self, version, num_classes):
+    def __init__(self, version, num_classes, phi_values):
         super(EfficientNet, self).__init__()
-        width_factor, depth_factor, dropout_rate = self.calculate_factors(version)
+        self.phi_values = phi_values
+        width_factor, depth_factor, dropout_rate = self.calculate_factors(version = version)
         last_channels = ceil(1280 * width_factor)
         self.pool = nn.AdaptiveAvgPool2d(1)
         self.features = self.create_features(width_factor, depth_factor, last_channels)
@@ -129,7 +119,7 @@ class EfficientNet(nn.Module):
         )
 
     def calculate_factors(self, version, alpha=1.2, beta=1.1):
-        phi, res, drop_rate = phi_values[version]
+        phi, res, drop_rate = self.phi_values[version]
         depth_factor = alpha**phi
         width_factor = beta**phi
         return width_factor, depth_factor, drop_rate
@@ -167,6 +157,6 @@ class EfficientNet(nn.Module):
         x = self.classifier(x.view(x.shape[0], -1))
         return x
     
-def create_model_efficient_net(version, num_classes):
-    model = EfficientNet(version=version,num_classes=num_classes, phi_values = phi_values).to(device)
+def create_model_efficient_net(version, num_classes, device, phi_values):
+    model = EfficientNet(version=version, num_classes=num_classes, phi_values=phi_values).to(device)
     return model

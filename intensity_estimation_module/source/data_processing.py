@@ -57,6 +57,10 @@ def data_processing(train_dataset: dict,val_dataset: dict):
         val_dataset: dictionary of the validation dataset
 
     """
+    #filter error data
+    train_dataset = filter_error_shape(train_dataset)
+    val_dataset = filter_error_shape(val_dataset)
+    
     #create tensor of infrared data train and  validation
     ir_train = np.array(train_dataset['IR array'])
     d1,d2,d3,d4 = ir_train.shape
