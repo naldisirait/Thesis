@@ -4,9 +4,10 @@ from source.building_data_loader import create_data_loader
 from source.model_net import create_model_efficient_net
 from source.train_model import train_net
 import torch
+import torch.nn as nn
 
 def run_experiment():
-    #get the index
+    #0. set the computation variable
     gpu_idx = 1
     device = torch.device(f"cuda:{gpu_idx}") if torch.cuda.is_available() else torch.device("cpu")
 
@@ -14,25 +15,25 @@ def run_experiment():
     file_train = [".."]
     file_val = [".."]
 
-    #load dataset
+    #1. load dataset
     train_dataset = load_dataset(path_dataset = path_dataset, data_name=file_train)
     val_dataset = load_dataset(path_dataset=path_dataset, data_name= file_val)
 
-    #processing dataset
+    #2. processing dataset
     X_train, y_train, X_val, y_val = data_processing(train_dataset=train_dataset,val_dataset=val_dataset)
 
-    #Create custom data loader
+    #3. Create custom data loader
     batch_size = 64
     train_loader = create_data_loader(X = X_train, y = y_train, batch_size = batch_size, shuffle=True)
     val_loader = create_data_loader(X = X_val, y = y_val, batch_size = batch_size, shuffle = False)
 
-    #create the model
+    #4. create the model
     version = "b0"
     num_classes = 6
     model = create_model_efficient_net(version=version, num_classes=num_classes)
     
-    #train the model
-    num_epochs = 100
+    #5. train the model
+    num_epochs = 1
     criterion = nn.CrossEntropyLoss()
     lr = 1e-3
     optimizer = torch.optim.Adam(model.parameters(),lr)
