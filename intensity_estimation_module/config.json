@@ -1,0 +1,7 @@
+{
+    "epochs": 10,
+    "learning rate": 0.001,
+    "optimizer": "adam",
+    "criterion": "CrossEntropy",
+    "result_path": "C:/Users/62812/Documents/Kuliah/Thesis/Thesis/intensity_estimation_module/experiment_results"
+}
