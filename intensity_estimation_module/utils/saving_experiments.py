@@ -5,7 +5,7 @@ import os
 import yaml
 import torch.nn as nn
 from utils.utils_intensity import write_json_file
-
+from utils.utils_intensity import visualize_training_history
 from utils.utils_intensity import create_folder
 
 def check_number_of_experiments(path: str) -> int:
@@ -62,7 +62,7 @@ def save_config(path, config):
     """
     write_json_file(config, path)
 
-def save_experiment(path, config, model, train_acc, val_acc):
+def save_experiment(path, config, model, best_model, train_acc, val_acc):
     """
     Function to save the experiment
 
@@ -81,11 +81,12 @@ def save_experiment(path, config, model, train_acc, val_acc):
 
     #saving the model
     path_experiment_folder = f"{path}/{experiment_folder_name}"
-    model_name = "model.pth"
-    save_model(f"{path_experiment_folder}/{model_name}", model)
+    save_model(f"{path_experiment_folder}/model.pth", model)
+    save_model(f"{path_experiment_folder}/best_model.pth", best_model)
     
-    #saving model perfomance
+    #saving model perfomance and its visualization
     save_acc_train_val(path_experiment_folder,train_acc,val_acc)
+    visualize_training_history(path_experiment_folder,train_acc,val_acc)
 
     #saving experiment configuration
     save_config(path_experiment_folder, config)

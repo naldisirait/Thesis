@@ -1,7 +1,16 @@
 {
-    "epochs": 3,
+    "epochs": 100,
     "learning rate": 0.001,
+    "number_class": 6,
     "optimizer": "adam",
     "criterion": "CrossEntropy",
-    "path_experiment": "C:/Users/62812/Documents/Kuliah/Thesis/Thesis/intensity_estimation_module/experiment_results"
+    "path_experiment": "C:/Users/62812/Documents/Kuliah/Thesis/Thesis/intensity_estimation_module/experiment_results",
+    "path_dataset": "C:/Users/62812/Documents/Kuliah/Thesis/data", 
+    "train_data": [
+        "TC Dataset 2018"
+    ],
+    "val_data": ["TC Dataset 2021 validation"],
+    "model_version": "b0",
+    "batch_size" : 64,
+    "gpu_index": 0
 }
