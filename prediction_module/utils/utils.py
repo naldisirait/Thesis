@@ -62,3 +62,7 @@ def load_pre_trained_model(model, pre_trained_model: str):
     """
     model = model.load_state_dict(torch.load(pre_trained_model))
     return model
+
+def save_model(model, path, output_name):
+    #Save model
+    torch.save(model.state_dict(),f"{path}/{output_name}.pt")

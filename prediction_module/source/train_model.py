@@ -3,14 +3,23 @@ import torch.nn as nn
 import numpy as np
 from .evaluation import evaluate_model_simvp
 
-def train_SimVP(config_class, epochs, criterion, optimizer, model, data_train_loader, data_val_loader, device):
-    exp_name = config_class.get_experiment_name()
+def train_SimVP(config_class, model, data_train_loader, data_val_loader, device):
+    
+    epochs = config_class.get_epochs()
+    criterion = config_class.get_criterion()
+    optimizer = config_class.get_optimzer()
+
     prev_epochs = 500
     model.to(device)
     model.train()
+
+    #set best_model to 0 
+    best_model = 0
     prev_loss = np.inf
+    
     eval_loss = []
     train_loss = []
+    
     for epoch in range(epochs):
         for X, y in data_train_loader:
             X = X.to(device)
@@ -33,7 +42,6 @@ def train_SimVP(config_class, epochs, criterion, optimizer, model, data_train_lo
         
         if mse_eval < prev_loss:
             prev_loss = mse_eval
-            #Save model
-            torch.save(model.state_dict(),f"{path_to_save} SimVP exp {exp_name} epoch {epochs+prev_epochs} best.pt")
-            
-    torch.save(model.state_dict(),f"SimVP run 3 epoch {epochs+prev_epochs}.pt") 
+            best_model = model
+
+    return model,best_model, train_loss, eval_loss

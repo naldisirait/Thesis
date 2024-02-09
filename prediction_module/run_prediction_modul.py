@@ -6,8 +6,12 @@ from source.model import create_model_prediction
 from source.train_model import train_model
 from utils.utils import read_json_file
 from utils.utils import load_pretrained_model
+import torch
 
 def run_experiment():
+    #set device
+    device = torch.device(f"cuda:{gpu_idx}") if torch.cuda.is_available() else torch.device("cpu")
+
     #load configuration
     config = read_json_file("config.json")
     config_class = Configuration(config)
@@ -30,11 +34,9 @@ def run_experiment():
     
     #create model
     model = create_model_prediction(config_class=config_class, in_shape=X_train.shape)
-    #model = load_pretrained_model(model)
-    
 
-    # model = create_model_prediction(config_class)
-    # model, train_loss, eval_loss = train_model(config_class, model, data_train_loader, data_val_loader)
+    #model = load_pretrained_model(model)
+    model, best_model, train_loss, eval_loss = train_model(config_class, model, data_train_loader, data_val_loader)
 
     print("Successfully run the experiment!")
 
