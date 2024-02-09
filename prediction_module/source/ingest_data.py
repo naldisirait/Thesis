@@ -18,20 +18,10 @@ def merge_dicts(dict1, dict2):
             merged_dict[key] = dict1[key]
     return merged_dict
 
-def load_train_dataset():
-    dataset_2018 = open_pickle_dataset("../Data Tesis/TC Dataset 2018.pkl")
-    dataset_2019 = open_pickle_dataset("../Data Tesis/TC Dataset 2019.pkl")
-    dataset_2020 = open_pickle_dataset("../Data Tesis/TC Dataset 2020.pkl")
-    dataset_2021 = open_pickle_dataset("../Data Tesis/TC Dataset 2021.pkl")
-    
-    dataset = merge_dicts(dataset_2018, dataset_2019)
-    dataset = merge_dicts(dataset, dataset_2020)
-    dataset = merge_dicts(dataset, dataset_2021)
-    
-    dataset = merge_dicts(dataset_2020, dataset_2021)
-    dataset = filter_error_shape(dataset)
-    
+def load_dataset(path,list_of_filename):
+    for n,filename in enumerate(list_of_filename):
+        if n == 0:
+            dataset = open_pickle_dataset(f"{path}/{filename}")
+        else:
+            dataset = merge_dicts(dataset,open_pickle_dataset(f"{path}/{filename}"))
     return dataset
-
-def load_dataset():
-    pass

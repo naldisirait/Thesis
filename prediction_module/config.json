@@ -1,0 +1,12 @@
+{
+    "experiment_name": "..",
+    "path_dataset" : "C:/Users/62812/Documents/Kuliah/Thesis/data",
+    "list_of_train_data" : ["TC Dataset 2021.pkl"],
+    "list_of_validation_data": ["TC Dataset 2020.pkl"],
+    "epochs" : 10,
+    "criterion": "..",
+    "optimizer" : "..",
+    "batch_size": 32,
+    "pre_trained_model": "..",
+    "learning_rate": 0.001
+}
