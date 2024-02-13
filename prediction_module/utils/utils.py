@@ -53,7 +53,7 @@ def get_current_time():
 
     return formatted_time
 
-def load_pre_trained_model(model, pre_trained_model: str):
+def load_pretrained_model(model, pre_trained_model: str):
     """
     Load weights from pretrained model
     Args:

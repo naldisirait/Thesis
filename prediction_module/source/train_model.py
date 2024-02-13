@@ -9,7 +9,6 @@ def train_SimVP(config_class, model, data_train_loader, data_val_loader, device)
     criterion = config_class.get_criterion()
     optimizer = config_class.get_optimzer()
 
-    prev_epochs = 500
     model.to(device)
     model.train()
 

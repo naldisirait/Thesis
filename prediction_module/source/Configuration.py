@@ -31,4 +31,6 @@ class Configuration:
     def get_pre_trained_model(self):
         return self.config['pre_trained_model']
     
+    def get_gpu_index(self):
+        return self.config['gpu_index']
     

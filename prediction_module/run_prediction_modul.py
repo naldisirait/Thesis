@@ -3,18 +3,19 @@ from source.Configuration import Configuration
 from source.data_processing import process_dataset
 from source.building_data_loader import create_data_loader
 from source.model import create_model_prediction
-from source.train_model import train_model
+from source.train_model import train_SimVP
 from utils.utils import read_json_file
 from utils.utils import load_pretrained_model
 import torch
 
 def run_experiment():
-    #set device
-    device = torch.device(f"cuda:{gpu_idx}") if torch.cuda.is_available() else torch.device("cpu")
-
     #load configuration
     config = read_json_file("config.json")
     config_class = Configuration(config)
+
+    #set device
+    gpu_idx = config_class.get_gpu_index()
+    device = torch.device(f"cuda:{gpu_idx}") if torch.cuda.is_available() else torch.device("cpu")
 
     #Load dataset
     path_dataset = config_class.get_path_dataset()
@@ -33,10 +34,12 @@ def run_experiment():
     data_val_loader = create_data_loader(X=X_val, y=y_val, batch_size=batch_size, shuffle=False)
     
     #create model
-    model = create_model_prediction(config_class=config_class, in_shape=X_train.shape)
+    model = create_model_prediction(config_class=config_class, in_shape=X_train.shape, device=device)
 
     #model = load_pretrained_model(model)
-    model, best_model, train_loss, eval_loss = train_model(config_class, model, data_train_loader, data_val_loader)
+    model, best_model, train_loss, eval_loss = train_SimVP(
+        config_class = config_class, model = model, data_train_loader= data_train_loader,
+        data_val_loader = data_val_loader, device=device)
 
     print("Successfully run the experiment!")
 
